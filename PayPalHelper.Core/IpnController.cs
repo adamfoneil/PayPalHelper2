@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PayPalHelper.Core.Extensions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,7 +29,8 @@ namespace PayPalHelper.Core
         {
             try
             {
-                if (await Request.IsVerifiedAsync(Environment))
+                var result = await Request.VerifyPayPalTransactionAsync(Environment);
+                if (result.IsVerified)
                 {
                     _logger.LogInformation($"Verified transaction at {DateTime.UtcNow}:\r\n{GetFormText(Request.Form)}");
 

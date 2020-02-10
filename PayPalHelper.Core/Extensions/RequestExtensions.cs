@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace PayPalHelper.Core
+namespace PayPalHelper.Core.Extensions
 {
     public enum PayPalEnvironment
     {
@@ -18,7 +18,7 @@ namespace PayPalHelper.Core
     {
         private static HttpClient _client = new HttpClient();
 
-        public static async Task<VerificationResult> IsVerifiedAsync(this HttpRequest request, PayPalEnvironment environment, ILogger logger = null)
+        public static async Task<VerificationResult> VerifyPayPalTransactionAsync(this HttpRequest request, PayPalEnvironment environment, ILogger logger = null)
         {
             bool isVerified = false;
 
@@ -53,7 +53,7 @@ namespace PayPalHelper.Core
             return new VerificationResult()
             {
                 IsVerified = isVerified,
-                Transaction = PayPalTransaction.FromForm(request.Form)
+                Transaction = request.Form.ParseForm<PayPalTransaction>()
             };
         }
     }

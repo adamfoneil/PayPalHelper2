@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
-using PayPalHelper.Core;
+using PayPalHelper.Core.Extensions;
 using System.Threading.Tasks;
 
 namespace IpnTest
@@ -15,7 +15,7 @@ namespace IpnTest
             [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req,
             ILogger log)
         {
-            var result = await req.IsVerifiedAsync(PayPalEnvironment.Sandbox, log);
+            var result = await req.VerifyPayPalTransactionAsync(PayPalEnvironment.Sandbox, log);
             if (result.IsVerified)
             {
                 log.LogInformation("yes it's verified!");
