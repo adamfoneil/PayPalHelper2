@@ -15,7 +15,8 @@ namespace IpnTest
             [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req,
             ILogger log)
         {
-            if (await req.IsVerifiedAsync(PayPalEnvironment.Sandbox, log))
+            var result = await req.IsVerifiedAsync(PayPalEnvironment.Sandbox, log);
+            if (result.IsVerified)
             {
                 log.LogInformation("yes it's verified!");
             }

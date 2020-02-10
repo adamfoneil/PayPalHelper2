@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using PayPalHelper.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -17,8 +18,10 @@ namespace PayPalHelper.Core
     {
         private static HttpClient _client = new HttpClient();
 
-        public static async Task<bool> IsVerifiedAsync(this HttpRequest request, PayPalEnvironment environment, ILogger logger = null)
+        public static async Task<VerificationResult> IsVerifiedAsync(this HttpRequest request, PayPalEnvironment environment, ILogger logger = null)
         {
+            bool isVerified = false;
+
             try
             {
                 var urls = new Dictionary<PayPalEnvironment, Uri>
@@ -38,8 +41,8 @@ namespace PayPalHelper.Core
                 var response = await _client.PostAsync("cgi-bin/webscr", content);
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsStringAsync();
-                    return (result.Equals("VERIFIED"));
+                    var responseText = await response.Content.ReadAsStringAsync();
+                    isVerified = responseText.Equals("VERIFIED");
                 }
             }
             catch (Exception exc)
@@ -47,7 +50,11 @@ namespace PayPalHelper.Core
                 logger?.LogError(exc, "Error in IsVerifiedAsync");
             }
 
-            return false;
+            return new VerificationResult()
+            {
+                IsVerified = isVerified,
+                Transaction = PayPalTransaction.FromForm(request.Form)
+            };
         }
     }
 }
