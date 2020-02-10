@@ -26,7 +26,7 @@ namespace PayPalHelper.Core
         {
             try
             {
-                if (await Request.IsVerifiedTransaction(Environment))
+                if (await Request.IsVerifiedAsync(Environment))
                 {
                     _logger.LogInformation($"Verified transaction at {DateTime.UtcNow}: {GetFormText(Request.Form)}");
 

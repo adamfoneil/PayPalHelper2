@@ -16,7 +16,7 @@ namespace PayPalHelper.Core
     {
         private static HttpClient _client = new HttpClient();
 
-        public static async Task<bool> IsVerifiedTransaction(this HttpRequest request, Environment environment)
+        public static async Task<bool> IsVerifiedAsync(this HttpRequest request, Environment environment)
         {
             var urls = new Dictionary<Environment, Uri>
             {
