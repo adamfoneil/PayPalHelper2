@@ -1,7 +1,11 @@
 # PayPalHelper2
 
-So far, I'm just sketching this out.... have not run it yet nor any tests. This is an overhaul of my old [PayPalHelper](https://github.com/adamosoftware/PayPalHelper) project.
+This is a .NET Core overhaul of my old [PayPalHelper](https://github.com/adamosoftware/PayPalHelper) project. The Nuget package is **AO.PayPalHelper**.
 
-- [RequestExtensions](https://github.com/adamosoftware/PayPalHelper2/blob/master/PayPalHelper.Core/RequestExtensions.cs) will be the basis of this going forward. An `HttpRequest` extension method [IsVerifiedAsync](https://github.com/adamosoftware/PayPalHelper2/blob/master/PayPalHelper.Core/RequestExtensions.cs#L19) is intended to work on its own or part of a controller. This would be what you'd use in an Azure Function, for example.
+The thing to use here is an `HttpRequest` extension method called [VerifyPayPalTransactionAsync](https://github.com/adamosoftware/PayPalHelper2/blob/master/PayPalHelper.Core/Extensions/RequestExtensions.cs#L23). This returns a [VerificationResult](https://github.com/adamosoftware/PayPalHelper2/blob/master/PayPalHelper.Core/Models/VerificationResult.cs).
 
-- [IpnController](https://github.com/adamosoftware/PayPalHelper2/blob/master/PayPalHelper.Core/IpnController.cs) abstract class will be the controller implementation, using the extension method above. This would be used in a .NET Core project.
+You can see an example in my little Azure Function [test project](https://github.com/adamosoftware/PayPalHelper2/blob/master/IpnTest/IpnHandler.cs).
+
+There is also an [IpnController](https://github.com/adamosoftware/PayPalHelper2/blob/master/PayPalHelper.Core/IpnController.cs) abstract class you can implement. This is sort of compatible with the approach in my old project, but nowadays I lean toward Azure Functions, and I like how lightweight a single extension method is.
+
+I don't have a unit test project, and I haven't tried this with real PayPal transactions yet. But I have tested with [Ngrok](https://ngrok.com/) and PayPal's own [IPN simulator](https://developer.paypal.com/developer/ipnSimulator/). Microsoft has a great [walktrhough](https://docs.microsoft.com/en-us/azure/azure-functions/functions-debug-event-grid-trigger-local) on using Ngrok to test Azure Functions locally, and that's what I worked from.
