@@ -18,6 +18,8 @@ namespace PayPalHelper.Core.Extensions
     {
         private static HttpClient _client = new HttpClient();
 
+        private static PayPalEnvironment _env;
+
         public static async Task<VerificationResult> VerifyPayPalTransactionAsync(this HttpRequest request, PayPalEnvironment environment, ILogger logger = null)
         {
             bool isVerified = false;
@@ -29,8 +31,17 @@ namespace PayPalHelper.Core.Extensions
                     { PayPalEnvironment.Live, new Uri("https://ipnpb.paypal.com/") },
                     { PayPalEnvironment.Sandbox, new Uri("https://ipnpb.sandbox.paypal.com/") }
                 };
-
-                _client.BaseAddress = urls[environment];
+                
+                if (_client.BaseAddress == null)
+                {
+                    _client.BaseAddress = urls[environment];
+                    _env = environment;
+                }
+                else
+                {
+                    if (environment != _env) throw new Exception("Can't switch environments without restarting your app.");
+                }
+                
                 _client.DefaultRequestHeaders.Accept.Clear();
 
                 var formValues = new Dictionary<string, string>();
