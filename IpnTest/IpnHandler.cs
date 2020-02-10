@@ -19,6 +19,7 @@ namespace IpnTest
             if (result.IsVerified)
             {
                 log.LogInformation("yes it's verified!");
+                log.LogInformation($"the buyer is {result.Transaction.PayerEmail}, and they paid {result.Transaction.Gross} for item {result.Transaction.ItemNumber}");
             }
             else
             {
