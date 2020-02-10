@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PayPalHelper.Core.Extensions;
+using PayPalHelper.Core.Models;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace PayPalHelper.Core
         protected abstract PayPalEnvironment Environment { get; }
         protected abstract bool LogUnverifiedTransactions { get; }
 
-        protected abstract Task OnVerifiedAsync();
+        protected abstract Task OnVerifiedAsync(PayPalTransaction transaction);
 
         protected async virtual Task OnVerifiedExceptionAsync(Exception exception) { await Task.CompletedTask; }
 
@@ -36,7 +37,7 @@ namespace PayPalHelper.Core
 
                     try
                     {
-                        await OnVerifiedAsync();
+                        await OnVerifiedAsync(result.Transaction);
                     }
                     catch (Exception exc)
                     {
