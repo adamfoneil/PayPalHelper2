@@ -11,7 +11,7 @@ namespace PayPalHelper.Core
     {
         private readonly ILogger _logger;
 
-        protected abstract Environment Environment { get; }
+        protected abstract PayPalEnvironment Environment { get; }
         protected abstract bool LogUnverifiedTransactions { get; }
 
         protected abstract Task OnVerifiedAsync();
