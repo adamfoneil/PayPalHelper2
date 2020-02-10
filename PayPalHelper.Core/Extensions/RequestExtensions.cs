@@ -22,8 +22,7 @@ namespace PayPalHelper.Core.Extensions
 
         public static async Task<VerificationResult> VerifyPayPalTransactionAsync(this HttpRequest request, PayPalEnvironment environment, ILogger logger = null)
         {
-            bool isVerified = false;
-            PayPalTransaction transaction = null;
+            var result = new VerificationResult() { };
 
             try
             {
@@ -54,24 +53,21 @@ namespace PayPalHelper.Core.Extensions
                 if (response.IsSuccessStatusCode)
                 {
                     var responseText = await response.Content.ReadAsStringAsync();
-                    isVerified = responseText.Equals("VERIFIED");
+                    result.IsVerified = responseText.Equals("VERIFIED");
 
-                    if (isVerified)
+                    if (result.IsVerified)
                     {
-                        transaction = request.Form.ParseForm<PayPalTransaction>();
+                        result.Transaction = request.Form.ParseForm<PayPalTransaction>();
                     }
                 }
             }
             catch (Exception exc)
             {
+                result.Exception = exc;
                 logger?.LogError(exc, "Error in IsVerifiedAsync");
             }
 
-            return new VerificationResult()
-            {
-                IsVerified = isVerified,
-                Transaction = transaction
-            };
+            return result;
         }
     }
 }
