@@ -16,6 +16,8 @@ namespace PayPalHelper.Core
 
         protected abstract Task OnVerifiedAsync();
 
+        protected async virtual Task OnVerifiedExceptionAsync(Exception exception) { await Task.CompletedTask; }
+
         public IpnController(ILogger logger)
         {
             _logger = logger;
@@ -37,6 +39,7 @@ namespace PayPalHelper.Core
                     catch (Exception exc)
                     {
                         _logger.LogError(exc, $"Verified transaction handler failed at {DateTime.UtcNow} because {exc.Message}, form data: {GetFormText(Request.Form)}");
+                        await OnVerifiedExceptionAsync(exc);
                     }
                 }
                 else
