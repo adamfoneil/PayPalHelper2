@@ -13,6 +13,7 @@
     <PackageProjectUrl>https://github.com/adamosoftware/PayPalHelper2</PackageProjectUrl>
     <RepositoryUrl>https://github.com/adamosoftware/PayPalHelper2</RepositoryUrl>
     <PackageTags>paypal ipn</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
