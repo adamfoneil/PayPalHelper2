@@ -1,5 +1,3 @@
-# PayPalHelper2
-
 This is a .NET Core overhaul of my old [PayPalHelper](https://github.com/adamosoftware/PayPalHelper) project. The Nuget package is **AO.PayPalHelper**.
 
 The thing to use here is an `HttpRequest` extension method called [VerifyPayPalTransactionAsync](https://github.com/adamosoftware/PayPalHelper2/blob/master/PayPalHelper.Core/Extensions/RequestExtensions.cs#L23). This returns a [VerificationResult](https://github.com/adamosoftware/PayPalHelper2/blob/master/PayPalHelper.Core/Models/VerificationResult.cs).
