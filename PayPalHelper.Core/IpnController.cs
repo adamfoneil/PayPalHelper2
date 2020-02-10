@@ -36,15 +36,15 @@ namespace PayPalHelper.Core
                     }
                     catch (Exception exc)
                     {
-                        _logger.LogError(exc, $"Verified transaction handler failed at {DateTime.UtcNow} because {exc.Message}, form data: {GetFormText(Request.Form)}");                        
-                    }                    
+                        _logger.LogError(exc, $"Verified transaction handler failed at {DateTime.UtcNow} because {exc.Message}, form data: {GetFormText(Request.Form)}");
+                    }
                 }
                 else
                 {
                     if (LogUnverifiedTransactions)
                     {
                         _logger.LogInformation($"Unverified transaction at {DateTime.UtcNow}: {GetFormText(Request.Form)}");
-                    }                    
+                    }
                 }
             }
             catch (Exception exc)

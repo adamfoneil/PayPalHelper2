@@ -40,7 +40,6 @@ namespace PayPalHelper.Core
             }
 
             return false;
-
         }
     }
 }
