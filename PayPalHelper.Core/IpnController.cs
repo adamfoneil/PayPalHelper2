@@ -30,7 +30,7 @@ namespace PayPalHelper.Core
             {
                 if (await Request.IsVerifiedAsync(Environment))
                 {
-                    _logger.LogInformation($"Verified transaction at {DateTime.UtcNow}: {GetFormText(Request.Form)}");
+                    _logger.LogInformation($"Verified transaction at {DateTime.UtcNow}:\r\n{GetFormText(Request.Form)}");
 
                     try
                     {
@@ -38,7 +38,7 @@ namespace PayPalHelper.Core
                     }
                     catch (Exception exc)
                     {
-                        _logger.LogError(exc, $"Verified transaction handler failed at {DateTime.UtcNow} because {exc.Message}, form data: {GetFormText(Request.Form)}");
+                        _logger.LogError(exc, $"Verified transaction handler failed at {DateTime.UtcNow} because {exc.Message}, form data:\r\n{GetFormText(Request.Form)}");
                         await OnVerifiedExceptionAsync(exc);
                     }
                 }
@@ -46,7 +46,7 @@ namespace PayPalHelper.Core
                 {
                     if (LogUnverifiedTransactions)
                     {
-                        _logger.LogInformation($"Unverified transaction at {DateTime.UtcNow}: {GetFormText(Request.Form)}");
+                        _logger.LogInformation($"Unverified transaction at {DateTime.UtcNow}:\r\n{GetFormText(Request.Form)}");
                     }
                 }
             }
