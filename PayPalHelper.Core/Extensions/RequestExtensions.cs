@@ -60,11 +60,15 @@ namespace PayPalHelper.Core.Extensions
                         result.Transaction = request.Form.ParseForm<PayPalTransaction>();
                     }
                 }
+                else
+                {
+                    throw new Exception($"PayPal API call failed: {response.Content}");
+                }
             }
             catch (Exception exc)
             {
                 result.Exception = exc;
-                logger?.LogError(exc, "Error in IsVerifiedAsync");
+                logger?.LogError(exc, $"Error in {nameof(VerifyPayPalTransactionAsync)}");
             }
 
             return result;
