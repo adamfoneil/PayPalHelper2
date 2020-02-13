@@ -9,3 +9,5 @@ There is also an [IpnController](https://github.com/adamosoftware/PayPalHelper2/
 I don't have a unit test project, and I haven't tried this with real PayPal transactions yet. But I have tested with [Ngrok](https://ngrok.com/) and PayPal's own [IPN simulator](https://developer.paypal.com/developer/ipnSimulator/). Microsoft has a great [walktrhough](https://docs.microsoft.com/en-us/azure/azure-functions/functions-debug-event-grid-trigger-local) on using Ngrok to test Azure Functions locally, and that's what I worked from.
 
 Note that I didn't try to implement every single IPN variable on my [PayPalTransaction](https://github.com/adamosoftware/PayPalHelper2/blob/master/PayPalHelper.Core/Models/PayPalTransaction.cs) model class. I just addded the important ones I'm familiar with that jumped out at me from PayPal's [reference](https://developer.paypal.com/docs/ipn/integration-guide/IPNandPDTVariables/).
+
+Here's a video walkthrough that doubles as a crash course into to Azure Functions: [Vimeo](https://player.vimeo.com/video/391312203).
