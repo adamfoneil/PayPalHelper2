@@ -2,6 +2,26 @@ This is a .NET Core overhaul of my old [PayPalHelper](https://github.com/adamoso
 
 The thing to use here is an `HttpRequest` extension method called [VerifyPayPalTransactionAsync](https://github.com/adamosoftware/PayPalHelper2/blob/master/PayPalHelper.Core/Extensions/RequestExtensions.cs#L23). This returns a [VerificationResult](https://github.com/adamosoftware/PayPalHelper2/blob/master/PayPalHelper.Core/Models/VerificationResult.cs).
 
+```csharp
+[FunctionName("IpnHandler")]
+public static async Task<IActionResult> Run(
+[HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req,
+ILogger log)
+{
+    var result = await req.VerifyPayPalTransactionAsync(PayPalEnvironment.Sandbox, log);
+    if (result.IsVerified)
+    {
+        log.LogInformation("yes it's verified!");
+        log.LogInformation($"the buyer is {result.Transaction.PayerEmail}, and they paid {result.Transaction.Gross} for item {result.Transaction.ItemNumber}");
+    }
+    else
+    {
+        log.LogInformation("no, not verified");
+    }
+    return new OkResult();
+}
+```
+
 You can see an example in my little Azure Function [test project](https://github.com/adamosoftware/PayPalHelper2/blob/master/IpnTest/IpnHandler.cs).
 
 There is also an [IpnController](https://github.com/adamosoftware/PayPalHelper2/blob/master/PayPalHelper.Core/IpnController.cs) abstract class you can implement. This is sort of compatible with the approach in my old project, but nowadays I lean toward Azure Functions, and I like how lightweight a single extension method is.
