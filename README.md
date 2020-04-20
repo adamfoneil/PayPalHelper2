@@ -5,8 +5,8 @@ The thing to use here is an `HttpRequest` extension method called [VerifyPayPalT
 ```csharp
 [FunctionName("IpnHandler")]
 public static async Task<IActionResult> Run(
-[HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req,
-ILogger log)
+    [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req,
+    ILogger log)
 {
     var result = await req.VerifyPayPalTransactionAsync(PayPalEnvironment.Sandbox, log);
     if (result.IsVerified)
